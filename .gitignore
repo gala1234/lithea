@@ -1,1 +1,34 @@
-node_modules
+# dependencias
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js (archivos de build y generación estática)
+/.next/
+/out/
+
+# producción
+/build
+
+# archivos misceláneos y de sistema
+.DS_Store
+*.pem
+
+# logs de debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# variables de entorno locales (IMPORTANTE)
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

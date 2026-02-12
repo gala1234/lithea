@@ -11,10 +11,10 @@ const config: Config = {
       colors: {
         background: '#F2EFE9',
         text: '#333333',
-        primary: '#8C7A5B',
+        primary: '#786546',
         'primary-hover': '#5e513c',
         'primary-light': '#D4C5A9',
-        accent: '#BFA473',
+        accent: '#786546',
         'light-bg': '#F8F7F2',
         'subtle-text': '#5a5a5a',
         'medium-text': '#666',

@@ -13,7 +13,7 @@ export const BrandBlock: React.FC<BrandBlockProps> = ({ subtitle }) => (
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center backdrop-blur-[2px] p-8 rounded-full border border-white/20 bg-white/10 shadow-2xl shadow-black/5"
+        className="text-center rounded-full border border-white/20 bg-[#F2EFE9]/30 p-8 backdrop-blur-md shadow-xl"
     >
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] text-primary drop-shadow-sm">
             LITHEA

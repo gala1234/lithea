@@ -20,7 +20,7 @@ export const BackgroundVideo = () => {
                 <source src={MOBILE_VIDEO_URL} type="video/mp4" media="(max-width: 768px)" />
                 <source src={DESKTOP_VIDEO_URL} type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-white/40 mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-[#F2EFE9]/60 mix-blend-normal"></div>
             <div
                 className="absolute inset-0 opacity-[0.07] pointer-events-none mix-blend-multiply"
                 style={{ backgroundImage: NOISE_SVG_URL }}

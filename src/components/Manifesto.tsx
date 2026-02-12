@@ -18,7 +18,7 @@ export const Manifesto: React.FC<ManifestoProps> = ({ manifesto, date }) => (
     >
         <div className="h-24 md:h-28 flex items-center justify-center">
             <TextTransition>
-              <p className="font-serif text-2xl md:text-4xl text-text/80 leading-tight italic antialiased drop-shadow-sm">
+              <p className="font-serif text-2xl md:text-4xl text-[#2b2b2b] leading-tight italic antialiased drop-shadow-sm">
                 {manifesto}
               </p>
             </TextTransition>
