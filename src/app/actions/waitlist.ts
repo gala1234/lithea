@@ -11,9 +11,8 @@ export async function joinWaitlist(formData: FormData) {
 
   try {
     await resend.contacts.create({
-      email: email,
+      email,
       unsubscribed: false,
-      audienceId: process.env.RESEND_AUDIENCE_ID || 'TU_AUDIENCE_ID',
     });
 
     await resend.emails.send({
@@ -34,8 +33,6 @@ export async function joinWaitlist(formData: FormData) {
             <tr>
               <td align="center">
                 <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #F8F7F2; text-align: center;">
-                  
-                  <!-- LOGO -->
                   <tr>
                     <td style="padding-bottom: 40px;">
                       <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 400; letter-spacing: 0.2em; color: #8C7A5B; text-transform: uppercase;">
@@ -46,15 +43,11 @@ export async function joinWaitlist(formData: FormData) {
                       </p>
                     </td>
                   </tr>
-
-                  <!-- DIVIDER -->
                   <tr>
                     <td align="center" style="padding-bottom: 40px;">
                       <div style="width: 40px; height: 1px; background-color: #8C7A5B; opacity: 0.4;"></div>
                     </td>
                   </tr>
-
-                  <!-- BODY CONTENT -->
                   <tr>
                     <td style="padding: 0 20px;">
                       <h2 style="margin: 0 0 24px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: #333333; line-height: 1.4;">
@@ -71,16 +64,12 @@ export async function joinWaitlist(formData: FormData) {
                       </p>
                     </td>
                   </tr>
-
-                  <!-- SIGNATURE -->
                   <tr>
                     <td style="padding-bottom: 60px; font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: #333333;">
                       Warmly,<br/>
                       Gala
                     </td>
                   </tr>
-
-                  <!-- FOOTER -->
                   <tr>
                     <td style="border-top: 1px solid #eaddcf; padding-top: 30px;">
                       <p style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.3em; color: #999999; text-transform: uppercase;">
@@ -88,7 +77,6 @@ export async function joinWaitlist(formData: FormData) {
                       </p>
                     </td>
                   </tr>
-
                 </table>
               </td>
             </tr>
