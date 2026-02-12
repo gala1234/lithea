@@ -1,0 +1,9 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo: Círculo Dorado (Tono #8C7A5B) -->
+  <circle cx="16" cy="16" r="16" fill="#8C7A5B"/>
+  
+  <!-- Letra L: Tipografía Serif simulada (Cormorant Garamond vibe) -->
+  <!-- Centrada ópticamente y en color blanco para contraste -->
+  <path d="M10.5 8.5C10.5 8.5 12.5 8.5 13 9C13.5 9.5 13.5 11 13.5 11V21C13.5 22.5 14 23 15.5 23H18.5C20 23 21 22.5 21.5 21.5L22 21V24H10.5V23C11.5 23 12 22.5 12 21V11C12 9.5 11.5 9 10.5 9V8.5Z" fill="#F8F7F2"/>
+</svg>
+
