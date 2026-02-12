@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { DESKTOP_VIDEO_URL, MOBILE_VIDEO_URL, NOISE_SVG_URL } from '@/content/constants';
-
-// Replace this with a high-quality .jpg or .webp of the first frame of your video
-const FALLBACK_POSTER = "/path-to-your-poster-image.jpg"; 
+import { DESKTOP_VIDEO_URL, MOBILE_VIDEO_URL, POSTER_URL, NOISE_SVG_URL } from '@/content/constants';
 
 export const BackgroundVideo = () => {
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -45,7 +42,7 @@ export const BackgroundVideo = () => {
                 muted
                 loop
                 playsInline
-                poster={FALLBACK_POSTER} // Critical: Shows this image if video is blocked
+                poster={POSTER_URL} // Critical: Shows this image if video is blocked
                 onCanPlayThrough={() => setIsVideoLoaded(true)}
                 className={`object-cover w-full h-full pointer-events-none transition-opacity duration-1000 ${
                     isVideoLoaded ? 'opacity-100' : 'opacity-100' 
