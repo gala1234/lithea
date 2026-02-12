@@ -3,29 +3,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DESKTOP_VIDEO_URL, MOBILE_VIDEO_URL, NOISE_SVG_URL } from '@/content/constants';
 
+// Replace this with a high-quality .jpg or .webp of the first frame of your video
+const FALLBACK_POSTER = "/path-to-your-poster-image.jpg"; 
+
 export const BackgroundVideo = () => {
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        // Attempt to play the video manually to bypass some mobile restrictions
-        const playVideo = async () => {
-            if (videoRef.current) {
-                try {
-                    await videoRef.current.play();
-                } catch (err) {
-                    // Autoplay likely blocked by Low Power Mode or browser settings
-                    console.warn("Autoplay blocked:", err);
-                }
+        const video = videoRef.current;
+        if (!video) return;
+
+        // Attempt to play the video manually
+        const attemptPlay = async () => {
+            try {
+                await video.play();
+            } catch (error) {
+                // If autoplay is blocked (e.g., Low Power Mode), 
+                // the poster image will be displayed automatically.
+                console.warn("Autoplay was prevented by the browser/OS:", error);
             }
         };
 
-        playVideo();
+        attemptPlay();
     }, []);
 
     return (
         <div className="absolute inset-0 z-0 w-full h-full overflow-hidden bg-[#eaddcf]">
-            {/* Hide native iOS video controls */}
+            {/* CSS to hide native iOS play buttons and controls */}
             <style>
                 {`
                     video::-webkit-media-controls { display: none !important; }
@@ -35,21 +40,22 @@ export const BackgroundVideo = () => {
 
             <video
                 ref={videoRef}
-                key={MOBILE_VIDEO_URL} // Forces re-render if URL changes
+                key={MOBILE_VIDEO_URL}
                 autoPlay
                 muted
                 loop
                 playsInline
+                poster={FALLBACK_POSTER} // Critical: Shows this image if video is blocked
                 onCanPlayThrough={() => setIsVideoLoaded(true)}
-                className={`object-cover w-full h-full pointer-events-none transition-opacity duration-700 ${
-                    isVideoLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`object-cover w-full h-full pointer-events-none transition-opacity duration-1000 ${
+                    isVideoLoaded ? 'opacity-100' : 'opacity-100' 
+                }`} // Setting opacity-100 by default so the poster is visible immediately
             >
                 <source src={MOBILE_VIDEO_URL} type="video/mp4" media="(max-width: 768px)" />
                 <source src={DESKTOP_VIDEO_URL} type="video/mp4" />
             </video>
 
-            {/* Visual Overlays */}
+            {/* Design Overlays */}
             <div className="absolute inset-0 bg-[#F2EFE9]/60 z-10" />
             
             <div
