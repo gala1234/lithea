@@ -1,11 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image'; // Optimized Next.js Image
-import { DESKTOP_VIDEO_URL, MOBILE_VIDEO_URL, NOISE_SVG_URL } from '@/content/constants';
-
-// 1. Place your image in the /public folder (e.g., public/poster-mobile.jpg)
-const FALLBACK_POSTER = "/poster-mobile.jpg"; 
+import Image from 'next/image'; 
+import { DESKTOP_VIDEO_URL, MOBILE_VIDEO_URL, POSTER_URL, NOISE_SVG_URL } from '@/content/constants';
 
 export const BackgroundVideo = () => {
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -48,7 +45,7 @@ export const BackgroundVideo = () => {
                 isVideoPlaying ? 'opacity-0' : 'opacity-100'
             }`}>
                 <Image
-                    src={FALLBACK_POSTER}
+                    src={POSTER_URL}
                     alt="Lithoramica Background"
                     fill
                     priority
