@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TextTransition } from './TextTransition';
+import { joinWaitlist } from '../app/actions/waitlist';
 
 interface WaitlistFormProps {
     placeholder: string;
@@ -12,11 +13,25 @@ interface WaitlistFormProps {
 export const WaitlistForm: React.FC<WaitlistFormProps> = ({ placeholder, successMessage }) => {
     const [email, setEmail] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Submitted email:", email);
-        setIsSubmitted(true);
+        setIsLoading(true);
+
+        // Creamos el FormData que espera tu Action
+        const formData = new FormData();
+        formData.append('email', email);
+
+        const result = await joinWaitlist(formData);
+
+        if (result.success) {
+            setIsSubmitted(true);
+        } else {
+            alert("Error: " + result.error);
+        }
+        
+        setIsLoading(false);
     };
 
     return (
@@ -30,16 +45,18 @@ export const WaitlistForm: React.FC<WaitlistFormProps> = ({ placeholder, success
                 <form onSubmit={handleSubmit} className="relative group w-full">
                     <input
                         type="email"
-                        placeholder={placeholder}
+                        placeholder={isLoading ? "Sending..." : placeholder}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="w-full bg-white/80 backdrop-blur-xl border border-primary-light text-text placeholder:text-placeholder-text font-sans text-xs py-4 px-6 rounded-none focus:outline-none focus:bg-white/90 focus:border-primary transition-all duration-500 text-center shadow-lg shadow-primary/5"
+                        disabled={isLoading}
+                        className="w-full bg-white/80 backdrop-blur-xl border border-primary-light text-text placeholder:text-placeholder-text font-sans text-xs py-4 px-6 rounded-none focus:outline-none focus:bg-white/90 focus:border-primary transition-all duration-500 text-center shadow-lg shadow-primary/5 disabled:opacity-50"
                     />
                     <button
                         type="submit"
                         aria-label="Submit email"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"
+                        disabled={isLoading}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 disabled:hidden"
                     >
                         <span className="text-primary hover:text-primary-hover text-xl">→</span>
                     </button>
