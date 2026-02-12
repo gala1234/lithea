@@ -10,19 +10,30 @@ export async function joinWaitlist(formData: FormData) {
   if (!email) return { success: false, error: 'Email is required' };
 
   try {
-    // Create the contact in your Audience
+    // 1. Fetch audiences to find the primary container
+    // This will work now once you update the API Key to "Full Access"
+    const audiences = await resend.audiences.list();
+    const audienceId = audiences.data?.data?.[0]?.id;
+
+    if (!audienceId) {
+      throw new Error('No Audience found. Ensure your API Key has Full Access.');
+    }
+
+    // 2. Create the contact in the main audience
     await resend.contacts.create({
       email,
+      audienceId,
       unsubscribed: false,
     });
 
-    // Link the contact to your specific segment
-    // Using the ID from your configuration: b70efdbb-f662-4ebe-9205-ab406f5c693d
-    await resend.contacts.create({
-      email,
+    // 3. Add to the specific segment using the email address
+    // Based on your documentation: resend.contacts.segments.add({ email, segmentId })
+    await resend.contacts.segments.add({
+      email: email,
       segmentId: 'b70efdbb-f662-4ebe-9205-ab406f5c693d',
     });
 
+    // 4. Send the Slow Luxury welcome email
     await resend.emails.send({
       from: 'LITHEA <hola@litheastudio.com>',
       to: email,
@@ -36,17 +47,17 @@ export async function joinWaitlist(formData: FormData) {
             @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Montserrat:wght@300;400&display=swap');
           </style>
         </head>
-        <body style="margin: 0; padding: 0; background-color: #F8F7F2; font-family: 'Montserrat', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+        <body style="margin: 0; padding: 0; background-color: #F8F7F2; font-family: 'Montserrat', sans-serif;">
           <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F8F7F2; padding: 60px 20px;">
             <tr>
               <td align="center">
-                <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #F8F7F2; text-align: center;">
+                <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; text-align: center;">
                   <tr>
                     <td style="padding-bottom: 40px;">
-                      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 400; letter-spacing: 0.2em; color: #8C7A5B; text-transform: uppercase;">
+                      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 42px; letter-spacing: 0.2em; color: #8C7A5B; text-transform: uppercase;">
                         LITHEA
                       </h1>
-                      <p style="margin: 5px 0 0 0; font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 0.4em; color: #7a7a7a; text-transform: uppercase;">
+                      <p style="margin: 5px 0 0 0; font-size: 10px; letter-spacing: 0.4em; color: #7a7a7a; text-transform: uppercase;">
                         Porcelain Jewelry
                       </p>
                     </td>
@@ -58,31 +69,20 @@ export async function joinWaitlist(formData: FormData) {
                   </tr>
                   <tr>
                     <td style="padding: 0 20px;">
-                      <h2 style="margin: 0 0 24px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: #333333; line-height: 1.4;">
+                      <h2 style="margin: 0 0 24px 0; font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: #333333;">
                         "Sculptural objects for the skin"
                       </h2>
-                      <p style="margin: 0 0 16px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; line-height: 1.8; color: #555555; font-weight: 300; letter-spacing: 0.02em;">
+                      <p style="margin: 0 0 40px 0; font-size: 14px; line-height: 1.8; color: #555555; font-weight: 300;">
                         Thank you for joining our waitlist. You have officially become part of our inner circle.
                       </p>
-                      <p style="margin: 0 0 40px 0; font-family: 'Montserrat', sans-serif; font-size: 14px; line-height: 1.8; color: #555555; font-weight: 300; letter-spacing: 0.02em;">
-                        We are currently perfecting the first pieces of <strong>Glazed Petals</strong>. As an engineer and a dreamer, I am ensuring every drop of porcelain meets the precision and soul you deserve.
-                      </p>
-                      <p style="margin: 0 0 60px 0; font-family: 'Montserrat', sans-serif; font-size: 12px; tracking: 0.1em; color: #8C7A5B; text-transform: uppercase;">
+                      <p style="margin: 0 0 60px 0; font-size: 12px; color: #8C7A5B; text-transform: uppercase; letter-spacing: 0.1em;">
                         Coming Summer 2026
                       </p>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding-bottom: 60px; font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: #333333;">
-                      Warmly,<br/>
-                      Gala
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="border-top: 1px solid #eaddcf; padding-top: 30px;">
-                      <p style="margin: 0; font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.3em; color: #999999; text-transform: uppercase;">
-                        Handcrafted in Spain • LITHEA Studio
-                      </p>
+                      Warmly,<br/>Gala
                     </td>
                   </tr>
                 </table>
@@ -96,7 +96,7 @@ export async function joinWaitlist(formData: FormData) {
 
     return { success: true };
   } catch (error) {
-    console.error('Waitlist Error:', error);
-    return { success: false, error: 'Failed to join waitlist' };
+    console.error('Waitlist Server Error:', error);
+    return { success: false, error: 'Failed to join. Please try again later.' };
   }
 }
