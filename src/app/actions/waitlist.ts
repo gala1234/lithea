@@ -10,9 +10,17 @@ export async function joinWaitlist(formData: FormData) {
   if (!email) return { success: false, error: 'Email is required' };
 
   try {
+    // Create the contact in your Audience
     await resend.contacts.create({
       email,
       unsubscribed: false,
+    });
+
+    // Link the contact to your specific segment
+    // Using the ID from your configuration: b70efdbb-f662-4ebe-9205-ab406f5c693d
+    await resend.contacts.create({
+      email,
+      segmentId: 'b70efdbb-f662-4ebe-9205-ab406f5c693d',
     });
 
     await resend.emails.send({
